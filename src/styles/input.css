@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --color-amazonfirst: rgb(254, 189, 105);
+  --color-amazonsecond: rgb(240, 136, 4);
+  --color-amazondthird: rgb(255, 153, 0);
+  --color-amazonbg: rgb(19, 25, 33);
+  --color-burgerlinkbg: rgb(38, 50, 63);
+  --breakpoint-md: 575px;
+  --breakpoint-xs: 375px;
+  --font-body: "Roboto", Arial;
+}
