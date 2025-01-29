@@ -1,5 +1,5 @@
 // Amazon navbar. To relocate later.
-export const navBarHTML = `<nav class="mr-4 ml-4 flex h-16 items-center justify-between">
+export const navBarHTML = `<nav class="mr-4 ml-4 flex h-full items-center justify-between">
         <a
           href="."
           class="rounded-sm border-1 border-solid border-transparent p-1.5 hover:border-1 hover:border-solid hover:border-white"
@@ -70,7 +70,7 @@ export const navBarHTML = `<nav class="mr-4 ml-4 flex h-16 items-center justify-
         </button>
 
         <div
-          class="bg-amazonbg js-burger-toggle absolute top-[60px] right-0 left-0 hidden h-[88px] text-center text-[16px] font-[600] text-white duration-[150] md:hidden"
+          class="bg-amazonbg js-burger-toggle absolute top-[60px] right-0 left-0 overflow-hidden max-h-0 text-center text-[16px] font-[600] text-white md:hidden transition-[max-height] duration-250"
         >
           <a class="hover:bg-burgerlinkbg z-10 block cursor-pointer p-[8px]"
             >Returns & Orders</a
@@ -81,4 +81,3 @@ export const navBarHTML = `<nav class="mr-4 ml-4 flex h-16 items-center justify-
           </a>
         </div>
       </nav>`;
-
