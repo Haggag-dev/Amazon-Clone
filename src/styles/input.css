@@ -5,6 +5,7 @@
   --color-amazonsecond: rgb(240, 136, 4);
   --color-amazondthird: rgb(255, 153, 0);
   --color-amazonfourth: rgb(33, 33, 33);
+  --color-amazonfifth: rgb(240, 136, 4);
 
   --color-addedmsg: rgb(6, 125, 98);
   --color-amazonbtn: rgb(255, 216, 20);
@@ -15,15 +16,13 @@
   --color-grayborder: rgb(231, 231, 231);
   --color-quantityborder: rgb(213, 217, 217);
 
-
   --amazon-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
 
-  
   --breakpoint-md: 575px;
   --breakpoint-xs: 375px;
 
   --breakpoint-grid2: 450px;
-  --breakpoint-grid3: var(--breakpoint-md);
+  --breakpoint-grid3: 575px;
   --breakpoint-grid4: 800px;
   --breakpoint-grid5: 1000px;
   --breakpoint-grid6: 1300px;
