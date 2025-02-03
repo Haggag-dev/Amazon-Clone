@@ -1,4 +1,4 @@
-import { navBarHTML } from "./components/AmazonHeader.js";
+import { html as navBarHTML } from "./components/AmazonHeader.js";
 import { html as productsHTML } from "./components/LoadProducts.js";
 import { cart } from "./data/cart.js";
 

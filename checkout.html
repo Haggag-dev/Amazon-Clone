@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Haggag.dev -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout</title>
+    <link rel="stylesheet" href="src/styles/output.css" />
+    <link rel="icon" href="images/logos/amazon-mobile-logo-white.png" />
+
+    <!-- Roboto Font (GoogleAPIs) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="font-body">
+    <header
+      class="fixed top-0 right-0 left-0 z-1000 flex h-[60px] items-center justify-center pr-7.5 pl-7.5"
+    ></header>
+
+    <main
+      class="max-grid5:max-w-[600px] mt-[140px] mr-auto ml-auto pr-7.5 pl-7.5"
+    >
+      <h2 class="mb-4.5 text-[22px] font-bold">Review Your Order</h2>
+
+      <section class="grid5:grid-cols-[1fr_350px] grid grid-cols-1">
+        <div
+          class="border-grayborder grid5:col-[2] mb-2 rounded-[5px] border-1 border-solid p-4.5 pr-4.5 pb-1.25 pl-4.5"
+        >
+          <h3 class="mb-3 text-lg font-bold">Order Summary</h3>
+
+          <div class="mb-2.25 flex justify-between text-[15px]">
+            <p>Items (<span>0</span>):</p>
+            <p>$0.00</p>
+          </div>
+
+          <div class="mb-2.25 flex justify-between text-[15px]">
+            <p>Shipping & handling:</p>
+            <p>$0.00</p>
+          </div>
+
+          <div class="mb-2.25 flex justify-between text-[15px]">
+            <p class="pt-2.25">Total before tax:</p>
+            <p class="border-t-grayborder border-t-1 border-solid pt-2.25">
+              $0.00
+            </p>
+          </div>
+
+          <div class="mb-2.25 flex justify-between text-[15px]">
+            <p>Estimated tax (10%):</p>
+            <p>$0.00</p>
+          </div>
+
+          <div
+            class="border-t-grayborder mb-2.25 flex justify-between border-t-1 border-solid pt-4.5 text-[18px] font-bold text-[rgb(177,39,4)]"
+          >
+            <p>Order total:</p>
+            <p>$0.00</p>
+          </div>
+
+          <button
+            class="bg-amazonbtn border-amazonbtnborder mt-5 mb-4.75 w-full cursor-pointer rounded-[8px] border-1 border-solid p-3 text-[13px] leading-4 font-[400] text-[rgb(33,33,33)] opacity-50 shadow-(--amazon-shadow)"
+          >
+            Place Your Order
+          </button>
+        </div>
+
+        <div class="grid5:col-[1] grid5:row-[1]">
+          <p class="mb-2.5">Your cart is empty.</p>
+          <a href="index.html">
+            <button
+              class="bg-amazonbtn border-amazonbtnborder cursor-pointer rounded-[8px] border-1 border-solid pt-2 pr-3.75 pb-2 pl-3.75 leading-4 font-[400] text-[rgb(33,33,33)] shadow-(--amazon-shadow)"
+            >
+              View Products
+            </button>
+          </a>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="src/scripts/checkout.js"></script>
+  </body>
+</html>

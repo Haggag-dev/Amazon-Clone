@@ -1,5 +1,5 @@
 // Amazon navbar. To relocate later.
-export const navBarHTML = `
+export const html = `
 <nav class="mr-4 ml-4 flex h-full items-center justify-between">
   <section class="w-[180px] max-grid4:w-[unset]">
     <a
@@ -50,7 +50,7 @@ export const navBarHTML = `
       <span class="block text-[15px] font-bold">& Orders</span>
     </a>
     <a
-      href=""
+      href="checkout.html"
       class="relative flex items-center justify-end rounded-sm border-1 border-solid border-transparent p-1.5 hover:border-1 hover:border-solid hover:border-white max-md:hidden"
     >
       <image src="images/icons/cart-icon.png" class="w-[50px]" />
@@ -78,7 +78,7 @@ export const navBarHTML = `
     <a class="hover:bg-burgerlinkbg z-10 block cursor-pointer p-[8px]"
       >Returns & Orders</a
     >
-    <a class="hover:bg-burgerlinkbg z-10 block cursor-pointer p-[8px]">
+    <a href="checkout.html" class="hover:bg-burgerlinkbg z-10 block cursor-pointer p-[8px]">
       Cart (<span class="js-mobile-display-quantity text-amazonfirst text-[16px] font-[700]">0</span>)
     </a>
   </div>
