@@ -4,7 +4,7 @@ export const html = `
   <section class="w-[180px] max-grid4:w-[unset]">
     <a
       href="."
-      class="rounded-sm border-1 border-solid border-transparent p-1.5 hover:border-1 hover:border-solid hover:border-white"
+      class="inline-block rounded-sm border-1 border-solid border-transparent p-1.5 hover:border-1 hover:border-solid hover:border-white"
     >
       <image
         src="images/logos/amazon-mobile-logo-white.png"
