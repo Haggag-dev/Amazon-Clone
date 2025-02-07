@@ -1,35 +1,24 @@
 import * as cartModule from "../data/cart.js";
 import * as productModule from "../data/products.js";
-import  formatCurrency  from "../utils/money.js";
+import formatCurrency from "../utils/money.js";
 import { updateOrderButton, updatePrice } from "./CheckoutSummary.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.13/esm/index.js";
+import { getShippingDay } from "../data/shippingOptions.js";
 
 // Shipping dates.
-export const getShippingDate = (shippingOption) => {
-  let shippingDate;
-  switch (shippingOption) {
-    case "free": // 7 days from today. FREE
-      shippingDate = dayjs().add(7, "day");
-      break;
-
-    case "fast": // 3 days from today. $4.99
-      shippingDate = dayjs().add(3, "day");
-      break;
-
-    case "flash": // 1 day from today (tommorow). $9.99
-      shippingDate = dayjs().add(1, "day");
-      break;
-  }
-
+const getShippingDate = (shippingDays) => {
+  let shippingDate = dayjs().add(shippingDays, "day");
   const deliveryDate = shippingDate.format("dddd, MMMM D");
   return deliveryDate;
 };
 
-export const updateDeliveryDate = (id) => {
-  let shippingType;
+export const updateDeliveryDate = (productId) => {
+  let shippingId;
 
   const shippingCents = Array.from(
-    document.querySelectorAll(`input[type="radio"][data-product-id="${id}"]`),
+    document.querySelectorAll(
+      `input[type="radio"][data-product-id="${productId}"]`,
+    ),
   ).reduce((accum, curr) => {
     if (curr.checked) return (accum += Number(curr.value));
     return accum;
@@ -37,20 +26,22 @@ export const updateDeliveryDate = (id) => {
 
   switch (shippingCents) {
     case 0:
-      shippingType = "free";
+      shippingId = 1;
       break;
 
     case 499:
-      shippingType = "fast";
+      shippingId = 2;
       break;
 
     case 999:
-      shippingType = "flash";
+      shippingId = 3;
       break;
   }
 
-  document.querySelector(`.js-delivery-date-${id}`).innerHTML =
-    getShippingDate(shippingType);
+  document.querySelector(`.js-delivery-date-${productId}`).innerHTML =
+    getShippingDate(getShippingDay(shippingId));
+
+  cartModule.updateShippingId(productId, shippingId);
 };
 
 const emptyCartHTML = `<div class="grid5:col-[1] grid5:row-[1] mb-18">
@@ -129,7 +120,7 @@ if (cartModule.cart.length > 0)
                 />
                 <div class="flex flex-col">
                   <p class="font-[500] text-[rgb(0,118,0)]">
-                    ${getShippingDate("free")}
+                    ${getShippingDate(7)}
                   </p>
                   <span class="text-[rgb(120,120,120)]"
                     >FREE Shipping</span
@@ -147,7 +138,7 @@ if (cartModule.cart.length > 0)
                 />
                 <div class="flex flex-col">
                   <p class="font-[500] text-[rgb(0,118,0)]">
-                  ${getShippingDate("fast")}
+                  ${getShippingDate(3)}
                   </p>
                   <span class="text-[15px] text-[rgb(120,120,120)]"
                     >$4.99 - Shipping</span
@@ -165,7 +156,7 @@ if (cartModule.cart.length > 0)
                 />
                 <div class="flex flex-col">
                   <p class="font-[500] text-[rgb(0,118,0)]">
-                  ${getShippingDate("flash")}
+                  ${getShippingDate(1)}
                   </p>
                   <span class="text-[15px] text-[rgb(120,120,120)]"
                     >$9.99 - Shipping</span
