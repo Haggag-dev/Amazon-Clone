@@ -1,7 +1,8 @@
 import * as cartModule from "../data/cart.js";
 import * as productModule from "../data/products.js";
-import { formatCurrency } from "../utils/money.js";
+import  formatCurrency  from "../utils/money.js";
 import { updateOrderButton, updatePrice } from "./CheckoutSummary.js";
+import dayjs from "https://unpkg.com/dayjs@1.11.13/esm/index.js";
 
 // Shipping dates.
 export const getShippingDate = (shippingOption) => {
@@ -20,16 +21,12 @@ export const getShippingDate = (shippingOption) => {
       break;
   }
 
-  const weekDay = shippingDate.format("dddd");
-  const monthDay = shippingDate.format("D");
-  const month = shippingDate.format("MMMM");
-  const deliveryDate = `${weekDay}, ${monthDay} ${month}`;
+  const deliveryDate = shippingDate.format("dddd, MMMM D");
   return deliveryDate;
 };
 
 export const updateDeliveryDate = (id) => {
   let shippingType;
-  const checkedRadio = document.getElementsByTagName("input");
 
   const shippingCents = Array.from(
     document.querySelectorAll(`input[type="radio"][data-product-id="${id}"]`),
@@ -82,7 +79,7 @@ if (cartModule.cart.length > 0)
           class="js-item-card-${cartItem.id} border-grayborder mb-3 grid4:col-start-1 rounded-[5px] border-1 border-solid pt-4.5 pr-4.5 pb-4.5 pl-4.5"
         >
           <h3 class="mt-1.25 mb-5.5 text-[19px] font-bold text-[rgb(0,118,0)]">
-            Delivery date: <span class="js-delivery-date-${cartItem.id}">Wednesday, February 12</span>
+            Delivery date: <span class="js-delivery-date-${cartItem.id}"></span>
           </h3>
 
           <div

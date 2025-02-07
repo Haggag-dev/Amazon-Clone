@@ -1,6 +1,6 @@
 import { cart } from "../data/cart.js";
 import * as productModule from "../data/products.js";
-import { formatCurrency } from "../utils/money.js";
+import formatCurrency from "../utils/money.js";
 import { updateDeliveryDate } from "./CheckoutDetails.js";
 
 // Total initial price.
@@ -91,7 +91,7 @@ addEventListener("DOMContentLoaded", () => {
   radioButtons.forEach((button) =>
     button.addEventListener("change", () => {
       updatePrice();
-      updateDeliveryDate(button.dataset.productId)
+      updateDeliveryDate(button.dataset.productId);
     }),
   );
   updatePrice();
