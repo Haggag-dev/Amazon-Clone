@@ -3,6 +3,59 @@ import * as productModule from "../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 import { updateOrderButton, updatePrice } from "./CheckoutSummary.js";
 
+// Shipping dates.
+export const getShippingDate = (shippingOption) => {
+  let shippingDate;
+  switch (shippingOption) {
+    case "free": // 7 days from today. FREE
+      shippingDate = dayjs().add(7, "day");
+      break;
+
+    case "fast": // 3 days from today. $4.99
+      shippingDate = dayjs().add(3, "day");
+      break;
+
+    case "flash": // 1 day from today (tommorow). $9.99
+      shippingDate = dayjs().add(1, "day");
+      break;
+  }
+
+  const weekDay = shippingDate.format("dddd");
+  const monthDay = shippingDate.format("D");
+  const month = shippingDate.format("MMMM");
+  const deliveryDate = `${weekDay}, ${monthDay} ${month}`;
+  return deliveryDate;
+};
+
+export const updateDeliveryDate = (id) => {
+  let shippingType;
+  const checkedRadio = document.getElementsByTagName("input");
+
+  const shippingCents = Array.from(
+    document.querySelectorAll(`input[type="radio"][data-product-id="${id}"]`),
+  ).reduce((accum, curr) => {
+    if (curr.checked) return (accum += Number(curr.value));
+    return accum;
+  }, 0);
+
+  switch (shippingCents) {
+    case 0:
+      shippingType = "free";
+      break;
+
+    case 499:
+      shippingType = "fast";
+      break;
+
+    case 999:
+      shippingType = "flash";
+      break;
+  }
+
+  document.querySelector(`.js-delivery-date-${id}`).innerHTML =
+    getShippingDate(shippingType);
+};
+
 const emptyCartHTML = `<div class="grid5:col-[1] grid5:row-[1] mb-18">
           <p class="mb-2.5">Your cart is empty.</p>
           <a href="index.html">
@@ -29,7 +82,7 @@ if (cartModule.cart.length > 0)
           class="js-item-card-${cartItem.id} border-grayborder mb-3 grid4:col-start-1 rounded-[5px] border-1 border-solid pt-4.5 pr-4.5 pb-4.5 pl-4.5"
         >
           <h3 class="mt-1.25 mb-5.5 text-[19px] font-bold text-[rgb(0,118,0)]">
-            Delivery date: Wednesday, February 12
+            Delivery date: <span class="js-delivery-date-${cartItem.id}">Wednesday, February 12</span>
           </h3>
 
           <div
@@ -73,12 +126,13 @@ if (cartModule.cart.length > 0)
                   class="ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full checked:bg-blue-600"
                   type="radio"
                   name="shipping-${cartItem.id}"
+                  data-product-id="${cartItem.id}"
                   value="0"
                   checked
                 />
                 <div class="flex flex-col">
                   <p class="font-[500] text-[rgb(0,118,0)]">
-                    Wednesday, February 12
+                    ${getShippingDate("free")}
                   </p>
                   <span class="text-[rgb(120,120,120)]"
                     >FREE Shipping</span
@@ -90,12 +144,13 @@ if (cartModule.cart.length > 0)
                 <input
                   class="ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full checked:bg-blue-600"
                   type="radio"
+                  data-product-id="${cartItem.id}"
                   name="shipping-${cartItem.id}"
                   value="499"
                 />
                 <div class="flex flex-col">
                   <p class="font-[500] text-[rgb(0,118,0)]">
-                    Thursday, February 6
+                  ${getShippingDate("fast")}
                   </p>
                   <span class="text-[15px] text-[rgb(120,120,120)]"
                     >$4.99 - Shipping</span
@@ -107,12 +162,13 @@ if (cartModule.cart.length > 0)
                 <input
                   class="ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full  checked:bg-blue-600"
                   type="radio"
+                  data-product-id="${cartItem.id}"
                   name="shipping-${cartItem.id}"
                   value="999"
                 />
                 <div class="flex flex-col">
-                  <p class="text-[15px] font-[500] text-[rgb(0,118,0)]">
-                    Tuesday, February 4
+                  <p class="font-[500] text-[rgb(0,118,0)]">
+                  ${getShippingDate("flash")}
                   </p>
                   <span class="text-[15px] text-[rgb(120,120,120)]"
                     >$9.99 - Shipping</span
@@ -127,7 +183,7 @@ if (cartModule.cart.length > 0)
 
 // Item quantity functionalities. (CRUD)
 if (cartModule.cart.length > 0) {
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", (id) => {
     const updateQuantity = (id) => {
       return () => {
         document
@@ -197,6 +253,8 @@ if (cartModule.cart.length > 0) {
     };
 
     cartModule.cart.forEach((cartItem) => {
+      updateDeliveryDate(cartItem.id);
+
       const htmlCard = document.querySelector(`.js-item-card-${cartItem.id}`);
       htmlCard
         .querySelector(`.js-update-quantity-button-${cartItem.id}`)

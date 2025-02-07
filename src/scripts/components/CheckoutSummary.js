@@ -1,13 +1,7 @@
 import { cart } from "../data/cart.js";
 import * as productModule from "../data/products.js";
 import { formatCurrency } from "../utils/money.js";
-
-// Shipping dates.
-const shippingDates = () => {
-  // 11 days from today. FREE
-  // 5 days from today. $4.99
-  // 1 day from today (tommorow). $9.99
-};
+import { updateDeliveryDate } from "./CheckoutDetails.js";
 
 // Total initial price.
 const updateInitialPrice = () => {
@@ -97,6 +91,7 @@ addEventListener("DOMContentLoaded", () => {
   radioButtons.forEach((button) =>
     button.addEventListener("change", () => {
       updatePrice();
+      updateDeliveryDate(button.dataset.productId)
     }),
   );
   updatePrice();
