@@ -1,43 +1,60 @@
-// Make an array of objects, where each object has the productId, name, and quantity ordered.
-export const cart = [
+const saveToStorage = () => {
+  localStorage.setItem("cart", JSON.stringify(cart));
+};
+
+export let cart = JSON.parse(localStorage.getItem("cart")) || [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-    name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
-    priceCents: 1090,
-    image: "images/products/athletic-cotton-socks-6-pairs.jpg",
     quantity: 2,
   },
   {
     id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-    name: "Intermediate Size Basketball",
-    priceCents: 2095,
-    image: "images/products/intermediate-composite-basketball.jpg",
     quantity: 1,
   },
 ];
 
+//   const quantity = cartModule.cart.reduce(
+export const calculateCartQuantity = () =>
+  cart.reduce((accum, curr) => (accum += curr.quantity), 0);
+
 // Save the product to cart.
+export const updateItemQuantity = (id, quantity) => {
+  for (let i = 0; i < cart.length; i++)
+    if (id === cart[i].id) {
+      cart[i].quantity = quantity;
+      saveToStorage();
+      return;
+    }
+};
 
-// export const addProductToCart = (btnIndex) => {
-//   return () => {
-//     const product = addToCartElement[btnIndex].dataset;
-//     let quantity;
+export const addProductToCart = (btnIndex) => {
+  return () => {
+    const addToCartElement = document.querySelectorAll(".js-add-to-cart-btn");
+    const product = addToCartElement[btnIndex].dataset;
 
-//     const select = document.querySelectorAll(".js-select-quantity")[btnIndex];
-//     quantity = Number(select.options[select.selectedIndex].value);
+    let quantity;
 
-//     for (let i = 0; i < cart.length; i++) {
-//       if (product.productId === cart[i].id) {
-//         cart[i].quantity += quantity;
-//         return;
-//       }
-//     }
+    const select = document.querySelectorAll(".js-select-quantity")[btnIndex];
+    quantity = Number(select.options[select.selectedIndex].value);
 
-//     cart.push({
-//       id: product.productId,
-//       name: product.productName,
-//       priceCents: product.productPrice,
-//       quantity,
-//     });
-//   };
-// };
+    for (let i = 0; i < cart.length; i++) {
+      if (product.productId === cart[i].id) {
+        cart[i].quantity += quantity;
+        return;
+      }
+    }
+
+    cart.push({
+      id: product.productId,
+      quantity,
+    });
+
+    saveToStorage();
+  };
+};
+
+export const deleteFromCart = (itemId) => {
+  const filteredCart = cart.filter((cartItem) => cartItem.id !== itemId);
+  cart = filteredCart;
+  saveToStorage();
+};

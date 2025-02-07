@@ -422,3 +422,8 @@ export const products = [
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
 ];
+
+export const getProduct = (productId, products) => {
+  for (let i = 0; i < products.length; i++)
+    if (productId === products[i].id) return products[i];
+};

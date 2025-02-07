@@ -41,59 +41,29 @@ const addedToCartAnimation = (btnIndex) => {
   };
 };
 
-const addToCartElement = document.querySelectorAll(
-  ".js-add-to-cart-btn",
-);
-
-// To relocate into cart.js later. (Saving the items into the cart.)
-const addProductToCart = (btnIndex) => {
-  return () => {
-    const product = addToCartElement[btnIndex].dataset;
-    let quantity;
-
-    const select = document.querySelectorAll(".js-select-quantity")[btnIndex];
-    quantity = Number(select.options[select.selectedIndex].value);
-
-    for (let i = 0; i < cartModule.cart.length; i++) {
-      if (product.productId === cartModule.cart[i].id) {
-        cartModule.cart[i].quantity += quantity;
-        return;
-      }
-    }
-
-    cartModule.cart.push({
-      id: product.productId,
-      name: product.productName,
-      priceCents: product.productPrice,
-      quantity,
-    });
-  };
-};
-
 // Change the cart quantity in the header.
-
 const displayQuantityElement = document.querySelector(".js-display-quantity");
 const mobileDisplayQuantityElement = document.querySelector(
   ".js-mobile-display-quantity",
 );
 
-const totalCartQuantity = () => {
+const updateCart = () => {
   if (cartModule.cart.length <= 0) {
     displayQuantityElement.innerText = 0;
     mobileDisplayQuantityElement.innerText = 0;
     return;
   }
 
-  const quantity = cartModule.cart.reduce(
-    (accum, curr) => (accum += curr.quantity),
-    0,
-  );
+  const quantity = cartModule.calculateCartQuantity();
+
   mobileDisplayQuantityElement.innerText = quantity;
   displayQuantityElement.innerText = quantity;
 };
 
+const addToCartElement = document.querySelectorAll(".js-add-to-cart-btn");
 for (let i = 0; i < addToCartElement.length; i++) {
   addToCartElement[i].addEventListener("click", addedToCartAnimation(i));
-  addToCartElement[i].addEventListener("click", addProductToCart(i));
-  addToCartElement[i].addEventListener("click", totalCartQuantity);
+  addToCartElement[i].addEventListener("click", cartModule.addProductToCart(i));
+  addToCartElement[i].addEventListener("click", updateCart);
 }
+updateCart(); // When the page first loads

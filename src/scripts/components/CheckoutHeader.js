@@ -1,3 +1,6 @@
+import { calculateCartQuantity } from "../data/cart.js"
+
+
 export const html = `<nav class="flex w-full max-w-[1100px] items-center justify-between text-center">
         <a href="index.html">
           <img
@@ -13,7 +16,7 @@ export const html = `<nav class="flex w-full max-w-[1100px] items-center justify
         </a>
         <h1 class="text-xl font-[500]">
           Checkout (<a href="index.html" class="text-[rgb(0,113,133)]"
-            >0 items</a
+            ><span class="js-header-item-quantity">${calculateCartQuantity()}</span> items</a
           >)
         </h1>
         <img

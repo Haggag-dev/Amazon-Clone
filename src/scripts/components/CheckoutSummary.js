@@ -1,4 +1,6 @@
 import { cart } from "../data/cart.js";
+import * as productModule from "../data/products.js";
+import { formatCurrency } from "../utils/money.js";
 
 // Shipping dates.
 const shippingDates = () => {
@@ -9,26 +11,28 @@ const shippingDates = () => {
 
 // Total initial price.
 const updateInitialPrice = () => {
-  const price = cart.reduce(
-    (accum, cartItem) =>
-      (accum +=
-        cartItem.priceCents *
-        Number(
-          document.querySelector(`.js-item-quantity-${cartItem.id}`).innerHTML,
-        )),
-    0,
-  );
+  const price = cart.reduce((accum, cartItem) => {
+    const product = productModule.getProduct(
+      cartItem.id,
+      productModule.products,
+    );
+
+    return (accum +=
+      product.priceCents *
+      Number(
+        document.querySelector(`.js-item-quantity-${cartItem.id}`).innerHTML,
+      ));
+  }, 0);
 
   document.querySelector(".js-inital-price").dataset.initialPriceCents = price;
   document.querySelector(".js-inital-price").innerHTML =
-    `$${(price / 100).toFixed(2)}`;
+    `$${formatCurrency(price)}`;
 };
 
 // Shipping Price
-let shippingPrice = 0; // For initial DOM loading. To set it differently, when cleaning code at the end of the project. (LocalStorage accomodation)
 const updateShippingPrice = (shippingPrice) => {
   document.querySelector(".js-shipping-price").innerHTML =
-    `$${(shippingPrice / 100).toFixed(2)}`;
+    `$${formatCurrency(shippingPrice)}`;
 
   document.querySelector(".js-shipping-price").dataset.shippingPriceCents =
     shippingPrice;
@@ -52,7 +56,7 @@ const updateBeforeTax = () => {
 
   const beforeTaxCents = Number(initalPriceCents) + Number(shippingPriceCents);
   document.querySelector(".js-before-tax").innerHTML =
-    `$${(beforeTaxCents / 100).toFixed(2)}`;
+    `$${formatCurrency(beforeTaxCents)}`;
   return beforeTaxCents;
 };
 
@@ -68,10 +72,10 @@ const updateEstimatedTax = () => {
 const updateTotal = () => {
   const orderTotal = updateBeforeTax() + updateEstimatedTax() * 0.1;
   document.querySelector(".js-order-total").innerHTML =
-    `$${(orderTotal / 100).toFixed(2)}`;
+    `$${formatCurrency(orderTotal)}`;
 };
 
-const updatePrice = () => {
+export const updatePrice = () => {
   updateInitialPrice();
   updateShippingPrice(calcShippingPrice());
   updateBeforeTax();
@@ -99,7 +103,7 @@ addEventListener("DOMContentLoaded", () => {
 });
 
 // Update Place Order Button
-const updateOrderButton = () => {
+export const updateOrderButton = () => {
   const button = document.querySelector(".js-place-order");
   button.classList.toggle("opacity-50", cart.length === 0);
 };

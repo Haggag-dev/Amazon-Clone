@@ -1,6 +1,9 @@
-import { cart } from "../data/cart.js";
+import * as cartModule from "../data/cart.js";
+import * as productModule from "../data/products.js";
+import { formatCurrency } from "../utils/money.js";
+import { updateOrderButton, updatePrice } from "./CheckoutSummary.js";
 
-export let html = `<div class="grid5:col-[1] grid5:row-[1] mb-18">
+const emptyCartHTML = `<div class="grid5:col-[1] grid5:row-[1] mb-18">
           <p class="mb-2.5">Your cart is empty.</p>
           <a href="index.html">
             <button
@@ -11,10 +14,17 @@ export let html = `<div class="grid5:col-[1] grid5:row-[1] mb-18">
           </a>
         </div>`;
 
-if (cart.length > 0)
+export let html = emptyCartHTML;
+
+if (cartModule.cart.length > 0)
   html =
-    '<div class="flex flex-col">' +
-    cart.reduce((accum, cartItem) => {
+    '<div class="js-products-html flex flex-col">' +
+    cartModule.cart.reduce((accum, cartItem) => {
+      const product = productModule.getProduct(
+        cartItem.id,
+        productModule.products,
+      );
+
       return (accum += `<div
           class="js-item-card-${cartItem.id} border-grayborder mb-3 grid4:col-start-1 rounded-[5px] border-1 border-solid pt-4.5 pr-4.5 pb-4.5 pl-4.5"
         >
@@ -27,17 +37,17 @@ if (cart.length > 0)
           >
             <div class="flex col-start-1 max-h-[100px] max-w-[100%] ml-auto mr-auto">
               <img
-                src="../../${cartItem.image}"
-                alt="${cartItem.name}"
+                src="../../${product.image}"
+                alt="${product.name}"
               />
             </div>
 
             <div>
               <p class="font-bold">
-              ${cartItem.name}
+              ${product.name}
               </p>
 
-              <p class="mb-2.5 font-bold text-[rgb(177,39,4)]">$${(cartItem.priceCents / 100).toFixed(2)}</p>
+              <p class="mb-2.5 font-bold text-[rgb(177,39,4)]">$${formatCurrency(product.priceCents)}</p>
               <p>
                 Quantity: <span class="js-item-quantity-${cartItem.id}">${cartItem.quantity}</span>
                 <span class="js-update-quantity-button-${cartItem.id} ml-0.75 cursor-pointer text-[#017cb6] hover:text-red-700"
@@ -116,7 +126,7 @@ if (cart.length > 0)
     "</div>";
 
 // Item quantity functionalities. (CRUD)
-if (cart.length > 0) {
+if (cartModule.cart.length > 0) {
   document.addEventListener("DOMContentLoaded", () => {
     const updateQuantity = (id) => {
       return () => {
@@ -157,14 +167,36 @@ if (cart.length > 0) {
         document
           .querySelector(`.js-save-quantity-button-${id}`)
           .classList.add("hidden");
+
+        cartModule.updateItemQuantity(id, Number(savedQuantitySpan.innerHTML));
+
+        document.querySelector(".js-header-item-quantity").innerHTML =
+          cartModule.calculateCartQuantity();
       };
     };
 
     const deleteItem = (id) => {
-      return () => document.querySelector(`.js-item-card-${id}`).remove();
+      return () => {
+        document.querySelector(`.js-item-card-${id}`).remove();
+        cartModule.deleteFromCart(id);
+
+        const totatCartQuantity = cartModule.calculateCartQuantity();
+        document.querySelector(".js-header-item-quantity").innerHTML =
+          totatCartQuantity;
+        if (totatCartQuantity === 0) {
+          document.querySelector(".js-products-html").remove();
+          document
+            .querySelector("section")
+            .insertAdjacentHTML("afterbegin", emptyCartHTML);
+
+          updateOrderButton();
+        }
+
+        updatePrice();
+      };
     };
 
-    cart.forEach((cartItem) => {
+    cartModule.cart.forEach((cartItem) => {
       const htmlCard = document.querySelector(`.js-item-card-${cartItem.id}`);
       htmlCard
         .querySelector(`.js-update-quantity-button-${cartItem.id}`)
