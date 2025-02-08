@@ -1,4 +1,4 @@
-import { cart, updateShippingId } from "../data/cart.js";
+import { calculateCartQuantity, cart, updateShippingId } from "../data/cart.js";
 import * as productModule from "../data/products.js";
 import formatCurrency from "../utils/money.js";
 import { updateDeliveryDate } from "./CheckoutDetails.js";
@@ -123,7 +123,7 @@ export const html = `<div
           <h3 class="mb-3 text-lg font-bold">Order Summary</h3>
 
           <div class="mb-2.25 flex justify-between text-[15px]">
-            <p>Items (<span>0</span>):</p>
+            <p>Items (<span class="js-order-quantity">${calculateCartQuantity()}</span>):</p>
             <p class="js-inital-price" data-initial-price-cents="0">$0.00</p>
           </div>
 

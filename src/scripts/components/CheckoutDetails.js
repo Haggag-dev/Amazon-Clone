@@ -196,6 +196,9 @@ if (cartModule.cart.length > 0) {
 
         document.querySelector(".js-header-item-quantity").innerHTML =
           cartModule.calculateCartQuantity();
+
+        document.querySelector(".js-order-quantity").innerHTML =
+          cartModule.calculateCartQuantity();
       };
     };
 
@@ -207,6 +210,10 @@ if (cartModule.cart.length > 0) {
         const totatCartQuantity = cartModule.calculateCartQuantity();
         document.querySelector(".js-header-item-quantity").innerHTML =
           totatCartQuantity;
+
+        document.querySelector(".js-order-quantity").innerHTML =
+          totatCartQuantity;
+
         if (totatCartQuantity === 0) {
           document.querySelector(".js-products-html").remove();
           document
@@ -221,6 +228,7 @@ if (cartModule.cart.length > 0) {
     };
 
     cartModule.cart.forEach((cartItem) => {
+      cartItem.shippingId = cartItem.shippingId || 1;
       updateDeliveryDate(cartItem.id);
 
       const htmlCard = document.querySelector(`.js-item-card-${cartItem.id}`);
