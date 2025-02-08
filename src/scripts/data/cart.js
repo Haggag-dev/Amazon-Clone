@@ -11,7 +11,7 @@ export let cart = JSON.parse(localStorage.getItem("cart")) || [
   {
     id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
     quantity: 1,
-    shippingId: 1,
+    shippingId: 2,
   },
 ];
 
@@ -57,7 +57,6 @@ export const addProductToCart = (btnIndex) => {
       id: product.productId,
       quantity,
     });
-
     saveToStorage();
   };
 };
@@ -66,4 +65,9 @@ export const deleteFromCart = (itemId) => {
   const filteredCart = cart.filter((cartItem) => cartItem.id !== itemId);
   cart = filteredCart;
   saveToStorage();
+};
+
+export const getShippingId = (productId) => {
+  for (let i = 0; i < cart.length; i++)
+    if (productId === cart[i].id) return cart[i].shippingId;
 };

@@ -1,4 +1,4 @@
-import { cart } from "../data/cart.js";
+import { cart, updateShippingId } from "../data/cart.js";
 import * as productModule from "../data/products.js";
 import formatCurrency from "../utils/money.js";
 import { updateDeliveryDate } from "./CheckoutDetails.js";
@@ -78,9 +78,17 @@ export const updatePrice = () => {
   updateOrderButton(); // To relocate later!! [TO-DO]
 };
 
+export const updateCheckedRadio = (productId, shippingId) => {
+  document.querySelector(`.js-shipping-${productId}-${shippingId}`).checked =
+    true;
+};
+
 // Call functions accordingly.
 addEventListener("DOMContentLoaded", () => {
   const radioButtons = document.querySelectorAll('input[type="radio"]');
+  cart.forEach((cartItem) => {
+    updateCheckedRadio(cartItem.id, cartItem.shippingId || 1);
+  });
 
   document
     .querySelectorAll(`.js-save-price`)
@@ -88,12 +96,18 @@ addEventListener("DOMContentLoaded", () => {
       spanQuantityElement.addEventListener("click", updatePrice),
     );
 
-  radioButtons.forEach((button) =>
+  radioButtons.forEach((button) => {
+    const buttonProductId = button.dataset.productId;
+
     button.addEventListener("change", () => {
       updatePrice();
-      updateDeliveryDate(button.dataset.productId);
-    }),
-  );
+      updateDeliveryDate(buttonProductId);
+    });
+
+    button.addEventListener("click", () => {
+      updateShippingId(buttonProductId, button.dataset.shippingId);
+    });
+  });
   updatePrice();
 });
 

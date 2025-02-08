@@ -4,6 +4,7 @@ import formatCurrency from "../utils/money.js";
 import { updateOrderButton, updatePrice } from "./CheckoutSummary.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.13/esm/index.js";
 import { getShippingDay } from "../data/shippingOptions.js";
+import { updateCheckedRadio } from "./CheckoutSummary.js";
 
 // Shipping dates.
 const getShippingDate = (shippingDays) => {
@@ -13,35 +14,12 @@ const getShippingDate = (shippingDays) => {
 };
 
 export const updateDeliveryDate = (productId) => {
-  let shippingId;
+  let shippingId = cartModule.getShippingId(productId);
 
-  const shippingCents = Array.from(
-    document.querySelectorAll(
-      `input[type="radio"][data-product-id="${productId}"]`,
-    ),
-  ).reduce((accum, curr) => {
-    if (curr.checked) return (accum += Number(curr.value));
-    return accum;
-  }, 0);
-
-  switch (shippingCents) {
-    case 0:
-      shippingId = 1;
-      break;
-
-    case 499:
-      shippingId = 2;
-      break;
-
-    case 999:
-      shippingId = 3;
-      break;
-  }
+  updateCheckedRadio(productId, shippingId || 1);
 
   document.querySelector(`.js-delivery-date-${productId}`).innerHTML =
-    getShippingDate(getShippingDay(shippingId));
-
-  cartModule.updateShippingId(productId, shippingId);
+    getShippingDate(getShippingDay(Number(shippingId)));
 };
 
 const emptyCartHTML = `<div class="grid5:col-[1] grid5:row-[1] mb-18">
@@ -111,12 +89,12 @@ if (cartModule.cart.length > 0)
 
               <div class="flex items-center mb-3">
                 <input
-                  class="ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full checked:bg-blue-600"
+                  class="js-shipping-${cartItem.id}-1 ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full checked:bg-blue-600"
                   type="radio"
-                  name="shipping-${cartItem.id}"
                   data-product-id="${cartItem.id}"
+                  data-shipping-id="1"
+                  name="shipping-${cartItem.id}"
                   value="0"
-                  checked
                 />
                 <div class="flex flex-col">
                   <p class="font-[500] text-[rgb(0,118,0)]">
@@ -130,9 +108,10 @@ if (cartModule.cart.length > 0)
 
               <div class="flex items-center mb-3">
                 <input
-                  class="ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full checked:bg-blue-600"
+                  class="js-shipping-${cartItem.id}-2 ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full checked:bg-blue-600"
                   type="radio"
                   data-product-id="${cartItem.id}"
+                  data-shipping-id="2"
                   name="shipping-${cartItem.id}"
                   value="499"
                 />
@@ -148,9 +127,10 @@ if (cartModule.cart.length > 0)
 
               <div class="flex items-center mb-3">
                 <input
-                  class="ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full  checked:bg-blue-600"
+                  class="js-shipping-${cartItem.id}-3 ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full  checked:bg-blue-600"
                   type="radio"
                   data-product-id="${cartItem.id}"
+                  data-shipping-id="3"
                   name="shipping-${cartItem.id}"
                   value="999"
                 />
@@ -171,7 +151,7 @@ if (cartModule.cart.length > 0)
 
 // Item quantity functionalities. (CRUD)
 if (cartModule.cart.length > 0) {
-  document.addEventListener("DOMContentLoaded", (id) => {
+  document.addEventListener("DOMContentLoaded", () => {
     const updateQuantity = (id) => {
       return () => {
         document
