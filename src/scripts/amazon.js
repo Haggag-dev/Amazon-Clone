@@ -1,9 +1,9 @@
 import { html as navBarHTML } from "./components/AmazonHeader.js";
-import { html as productsHTML } from "./components/LoadProducts.js";
+import { renderProductsGrid } from "./components/LoadProducts.js";
 import * as cartModule from "./data/cart.js";
 
 document.querySelector("header").innerHTML = navBarHTML;
-document.querySelector("main").innerHTML = productsHTML;
+renderProductsGrid();
 
 // Hamburger Menu: Toggle.
 let burgerMenuToggled = false;

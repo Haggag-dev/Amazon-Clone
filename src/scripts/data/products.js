@@ -1,3 +1,13 @@
+export const loadProducts = (fun) => {
+  fetch("https://supersimplebackend.dev/products")
+    .then((response) => {
+      return response.json();
+    })
+    .then((products) => {
+      fun(products);
+    });
+};
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -424,6 +434,7 @@ export const products = [
 ];
 
 export const getProduct = (productId, products) => {
+  // console.log(products)
   for (let i = 0; i < products.length; i++)
     if (productId === products[i].id) return products[i];
 };
