@@ -1,11 +1,9 @@
-export const loadProducts = (fun) => {
-  fetch("https://supersimplebackend.dev/products")
-    .then((response) => {
-      return response.json();
-    })
-    .then((products) => {
-      fun(products);
-    });
+export const loadProducts = async (fun) => {
+  const response = await fetch("https://supersimplebackend.dev/products");
+
+  const products = await response.json();
+
+  fun(products);
 };
 
 export const products = [
@@ -434,7 +432,6 @@ export const products = [
 ];
 
 export const getProduct = (productId, products) => {
-  // console.log(products)
   for (let i = 0; i < products.length; i++)
     if (productId === products[i].id) return products[i];
 };

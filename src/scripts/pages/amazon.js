@@ -1,8 +1,8 @@
-import { html as navBarHTML } from "./components/AmazonHeader.js";
-import { renderProductsGrid } from "./components/LoadProducts.js";
-import * as cartModule from "./data/cart.js";
+import { renderHeader, updateCart } from "../components/AmazonHeader.js";
+import { renderProductsGrid } from "../components/LoadProducts.js";
+import * as cartModule from "../data/cart.js";
 
-document.querySelector("header").innerHTML = navBarHTML;
+renderHeader();
 renderProductsGrid();
 
 // Hamburger Menu: Toggle.
@@ -41,24 +41,7 @@ const addedToCartAnimation = (btnIndex) => {
   };
 };
 
-// Change the cart quantity in the header.
-const displayQuantityElement = document.querySelector(".js-display-quantity");
-const mobileDisplayQuantityElement = document.querySelector(
-  ".js-mobile-display-quantity",
-);
 
-const updateCart = () => {
-  if (cartModule.cart.length <= 0) {
-    displayQuantityElement.innerText = 0;
-    mobileDisplayQuantityElement.innerText = 0;
-    return;
-  }
-
-  const quantity = cartModule.calculateCartQuantity();
-
-  mobileDisplayQuantityElement.innerText = quantity;
-  displayQuantityElement.innerText = quantity;
-};
 
 const addToCartElement = document.querySelectorAll(".js-add-to-cart-btn");
 for (let i = 0; i < addToCartElement.length; i++) {

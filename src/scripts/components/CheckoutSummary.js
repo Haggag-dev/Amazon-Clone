@@ -7,14 +7,15 @@ import { updateDeliveryDate } from "./CheckoutDetails.js";
 const updateInitialPrice = () => {
   const price = cart.reduce((accum, cartItem) => {
     const product = productModule.getProduct(
-      cartItem.id,
+      cartItem.productId,
       productModule.products,
     );
 
     return (accum +=
       product.priceCents *
       Number(
-        document.querySelector(`.js-item-quantity-${cartItem.id}`).innerHTML,
+        document.querySelector(`.js-item-quantity-${cartItem.productId}`)
+          .innerHTML,
       ));
   }, 0);
 
@@ -87,7 +88,7 @@ export const updateCheckedRadio = (productId, shippingId) => {
 addEventListener("DOMContentLoaded", () => {
   const radioButtons = document.querySelectorAll('input[type="radio"]');
   cart.forEach((cartItem) => {
-    updateCheckedRadio(cartItem.id, cartItem.shippingId || 1);
+    updateCheckedRadio(cartItem.productId, cartItem.deliveryOptionId || "1");
   });
 
   document

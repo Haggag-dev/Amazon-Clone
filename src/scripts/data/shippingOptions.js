@@ -1,14 +1,14 @@
 export const shippingOptions = [
   {
-    id: 1,
+    id: "1",
     days: 7,
   },
   {
-    id: 2,
+    id: "2",
     days: 3,
   },
   {
-    id: 3,
+    id: "3",
     days: 1,
   },
 ];

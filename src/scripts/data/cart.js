@@ -4,23 +4,24 @@ const saveToStorage = () => {
 
 export let cart = JSON.parse(localStorage.getItem("cart")) || [
   {
-    id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+    productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     quantity: 2,
-    shippingId: 1,
+    deliveryOptionId: "1",
   },
   {
-    id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+    productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
     quantity: 1,
-    shippingId: 2,
+    deliveryOptionId: "2",
   },
 ];
+
 
 export const calculateCartQuantity = () =>
   cart.reduce((accum, curr) => (accum += curr.quantity), 0);
 
 export const updateItemQuantity = (id, quantity) => {
   for (let i = 0; i < cart.length; i++)
-    if (id === cart[i].id) {
+    if (id === cart[i].productId) {
       cart[i].quantity = quantity;
       saveToStorage();
       return;
@@ -29,8 +30,8 @@ export const updateItemQuantity = (id, quantity) => {
 
 export const updateShippingId = (id, shippingId) => {
   for (let i = 0; i < cart.length; i++)
-    if (id === cart[i].id) {
-      cart[i].shippingId = shippingId;
+    if (id === cart[i].productId) {
+      cart[i].deliveryOptionId = shippingId;
       saveToStorage();
       return;
     }
@@ -47,14 +48,14 @@ export const addProductToCart = (btnIndex) => {
     quantity = Number(select.options[select.selectedIndex].value);
 
     for (let i = 0; i < cart.length; i++) {
-      if (product.productId === cart[i].id) {
+      if (product.productId === cart[i].productId) {
         cart[i].quantity += quantity;
         return;
       }
     }
 
     cart.push({
-      id: product.productId,
+      productId: product.productId,
       quantity,
     });
     saveToStorage();
@@ -62,12 +63,12 @@ export const addProductToCart = (btnIndex) => {
 };
 
 export const deleteFromCart = (itemId) => {
-  const filteredCart = cart.filter((cartItem) => cartItem.id !== itemId);
+  const filteredCart = cart.filter((cartItem) => cartItem.productId !== itemId);
   cart = filteredCart;
   saveToStorage();
 };
 
 export const getShippingId = (productId) => {
   for (let i = 0; i < cart.length; i++)
-    if (productId === cart[i].id) return cart[i].shippingId;
+    if (productId === cart[i].productId) return cart[i].deliveryOptionId;
 };

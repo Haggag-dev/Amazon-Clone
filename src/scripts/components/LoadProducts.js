@@ -1,6 +1,6 @@
-import { loadProducts } from "../data/products.js";
+import { products } from "../data/products.js";
 
-const productsHTML = (products) => {
+export const renderProductsGrid = () => {
   document.querySelector("main").innerHTML = products.reduce((accum, curr) => {
     return (accum += `<div class="border-grayborder flex flex-col items-center justify-center border-r-1 border-b-1 border-solid pt-10 pr-[25px] pb-[25px] pl-[25px]">
     <div class="mb-5 flex h-[180px] items-center justify-center">
@@ -54,8 +54,4 @@ const productsHTML = (products) => {
     </div>
   </div>`);
   }, "");
-};
-
-export const renderProductsGrid = () => {
-  loadProducts(productsHTML);
 };

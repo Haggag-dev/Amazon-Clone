@@ -16,10 +16,10 @@ const getShippingDate = (shippingDays) => {
 export const updateDeliveryDate = (productId) => {
   let shippingId = cartModule.getShippingId(productId);
 
-  updateCheckedRadio(productId, shippingId || 1);
+  updateCheckedRadio(productId, shippingId || "1");
 
   document.querySelector(`.js-delivery-date-${productId}`).innerHTML =
-    getShippingDate(getShippingDay(Number(shippingId)));
+    getShippingDate(getShippingDay(shippingId));
 };
 
 const emptyCartHTML = `<div class="grid5:col-[1] grid5:row-[1] mb-18">
@@ -40,15 +40,15 @@ if (cartModule.cart.length > 0)
     '<div class="js-products-html flex flex-col">' +
     cartModule.cart.reduce((accum, cartItem) => {
       const product = productModule.getProduct(
-        cartItem.id,
+        cartItem.productId,
         productModule.products,
       );
 
       return (accum += `<div
-          class="js-item-card-${cartItem.id} border-grayborder mb-3 grid4:col-start-1 rounded-[5px] border-1 border-solid pt-4.5 pr-4.5 pb-4.5 pl-4.5"
+          class="js-item-card-${cartItem.productId} border-grayborder mb-3 grid4:col-start-1 rounded-[5px] border-1 border-solid pt-4.5 pr-4.5 pb-4.5 pl-4.5"
         >
           <h3 class="mt-1.25 mb-5.5 text-[19px] font-bold text-[rgb(0,118,0)]">
-            Delivery date: <span class="js-delivery-date-${cartItem.id}"></span>
+            Delivery date: <span class="js-delivery-date-${cartItem.productId}"></span>
           </h3>
 
           <div
@@ -68,12 +68,12 @@ if (cartModule.cart.length > 0)
 
               <p class="mb-2.5 font-bold text-[rgb(177,39,4)]">$${formatCurrency(product.priceCents)}</p>
               <p>
-                Quantity: <span class="js-item-quantity-${cartItem.id}">${cartItem.quantity}</span>
-                <span class="js-update-quantity-button-${cartItem.id} ml-0.75 cursor-pointer text-[#017cb6] hover:text-red-700"
+                Quantity: <span class="js-item-quantity-${cartItem.productId}">${cartItem.quantity}</span>
+                <span class="js-update-quantity-button-${cartItem.productId} ml-0.75 cursor-pointer text-[#017cb6] hover:text-red-700"
                   >Update</span
                 >
-                <input class="js-change-quantity-${cartItem.id} hidden border-1 pl-0.5" name="change-quantity-${cartItem.id}" type="number" min="1" max="10" value="${cartItem.quantity}"/>
-                <span class="js-save-quantity-button-${cartItem.id} js-save-price hidden ml-0.75 cursor-pointer text-[#017cb6] hover:text-red-700"
+                <input class="js-change-quantity-${cartItem.productId} hidden border-1 pl-0.5" name="change-quantity-${cartItem.productId}" type="number" min="1" max="10" value="${cartItem.quantity}"/>
+                <span class="js-save-quantity-button-${cartItem.productId} js-save-price hidden ml-0.75 cursor-pointer text-[#017cb6] hover:text-red-700"
                   >Save</span
                 >
                 <span class="js-delete-item ml-0.75 cursor-pointer text-[#017cb6] hover:text-red-700"
@@ -89,11 +89,11 @@ if (cartModule.cart.length > 0)
 
               <div class="flex items-center mb-3">
                 <input
-                  class="js-shipping-${cartItem.id}-1 ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full checked:bg-blue-600"
+                  class="js-shipping-${cartItem.productId}-1 ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full checked:bg-blue-600"
                   type="radio"
-                  data-product-id="${cartItem.id}"
+                  data-product-id="${cartItem.productId}"
                   data-shipping-id="1"
-                  name="shipping-${cartItem.id}"
+                  name="shipping-${cartItem.productId}"
                   value="0"
                 />
                 <div class="flex flex-col">
@@ -108,11 +108,11 @@ if (cartModule.cart.length > 0)
 
               <div class="flex items-center mb-3">
                 <input
-                  class="js-shipping-${cartItem.id}-2 ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full checked:bg-blue-600"
+                  class="js-shipping-${cartItem.productId}-2 ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full checked:bg-blue-600"
                   type="radio"
-                  data-product-id="${cartItem.id}"
+                  data-product-id="${cartItem.productId}"
                   data-shipping-id="2"
-                  name="shipping-${cartItem.id}"
+                  name="shipping-${cartItem.productId}"
                   value="499"
                 />
                 <div class="flex flex-col">
@@ -127,11 +127,11 @@ if (cartModule.cart.length > 0)
 
               <div class="flex items-center mb-3">
                 <input
-                  class="js-shipping-${cartItem.id}-3 ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full  checked:bg-blue-600"
+                  class="js-shipping-${cartItem.productId}-3 ml-0 mr-1.25 scale-[1.1] cursor-pointer appearance-none w-4 h-4 border-1 border-gray-500 rounded-full  checked:bg-blue-600"
                   type="radio"
-                  data-product-id="${cartItem.id}"
+                  data-product-id="${cartItem.productId}"
                   data-shipping-id="3"
-                  name="shipping-${cartItem.id}"
+                  name="shipping-${cartItem.productId}"
                   value="999"
                 />
                 <div class="flex flex-col">
@@ -228,21 +228,23 @@ if (cartModule.cart.length > 0) {
     };
 
     cartModule.cart.forEach((cartItem) => {
-      cartItem.shippingId = cartItem.shippingId || 1;
-      updateDeliveryDate(cartItem.id);
+      cartItem.deliveryOptionId = cartItem.deliveryOptionId || "1";
+      updateDeliveryDate(cartItem.productId);
 
-      const htmlCard = document.querySelector(`.js-item-card-${cartItem.id}`);
+      const htmlCard = document.querySelector(
+        `.js-item-card-${cartItem.productId}`,
+      );
       htmlCard
-        .querySelector(`.js-update-quantity-button-${cartItem.id}`)
-        .addEventListener("click", updateQuantity(cartItem.id));
+        .querySelector(`.js-update-quantity-button-${cartItem.productId}`)
+        .addEventListener("click", updateQuantity(cartItem.productId));
 
       htmlCard
-        .querySelector(`.js-save-quantity-button-${cartItem.id}`)
-        .addEventListener("click", saveQuantity(cartItem.id));
+        .querySelector(`.js-save-quantity-button-${cartItem.productId}`)
+        .addEventListener("click", saveQuantity(cartItem.productId));
 
       htmlCard
         .querySelector(`.js-delete-item`)
-        .addEventListener("click", deleteItem(cartItem.id));
+        .addEventListener("click", deleteItem(cartItem.productId));
     });
   });
 }
