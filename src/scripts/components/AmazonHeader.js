@@ -44,7 +44,7 @@ const html = `
   <section class="flex w-[180px] shrink-0 justify-center max-md:hidden">
     <!-- To add: Hyperlinks for each 'a' element. -->
     <a
-      href=""
+      href="orders.html"
       class="flex flex-col justify-center rounded-sm border-1 border-solid border-transparent p-1.5 leading-4 text-white hover:border-1 hover:border-solid hover:border-white max-md:hidden"
     >
       <span class="block text-[13px]">Returns</span>
@@ -76,7 +76,7 @@ const html = `
   <div
     class="bg-amazonbg js-burger-toggle absolute top-[60px] right-0 left-0 max-h-0 overflow-hidden text-center text-[16px] font-[600] text-white transition-[max-height] duration-250 md:hidden"
   >
-    <a class="hover:bg-burgerlinkbg z-10 block cursor-pointer p-[8px]"
+    <a href="orders.html" class="hover:bg-burgerlinkbg z-10 block cursor-pointer p-[8px]"
       >Returns & Orders</a
     >
     <a href="checkout.html" class="hover:bg-burgerlinkbg z-10 block cursor-pointer p-[8px]">
@@ -150,7 +150,7 @@ export const renderHeader = () => {
   <section class="flex w-[180px] shrink-0 justify-center max-md:hidden">
     <!-- To add: Hyperlinks for each 'a' element. -->
     <a
-      href=""
+      href="orders.html"
       class="flex flex-col justify-center rounded-sm border-1 border-solid border-transparent p-1.5 leading-4 text-white hover:border-1 hover:border-solid hover:border-white max-md:hidden"
     >
       <span class="block text-[13px]">Returns</span>
@@ -190,4 +190,20 @@ export const renderHeader = () => {
     </a>
   </div>
 </nav>`;
+
+  // Hamburger Menu: Toggle.
+  let burgerMenuToggled = false;
+
+  const burgerMenuHtml = () => {
+    const navElement = document.querySelector("nav");
+
+    navElement
+      .querySelector(".js-burger-toggle")
+      .classList.toggle("max-h-[88px]");
+  };
+
+  document.querySelector(".js-hamburger-menu").addEventListener("click", () => {
+    burgerMenuToggled = !burgerMenuToggled;
+    burgerMenuHtml();
+  });
 };

@@ -5,24 +5,7 @@ import * as cartModule from "../data/cart.js";
 renderHeader();
 renderProductsGrid();
 
-// Hamburger Menu: Toggle.
-let burgerMenuToggled = false;
-
-document.querySelector(".js-hamburger-menu").addEventListener("click", () => {
-  burgerMenuToggled = !burgerMenuToggled;
-  burgerMenuHtml();
-});
-
-const burgerMenuHtml = () => {
-  const navElement = document.querySelector("nav");
-
-  navElement
-    .querySelector(".js-burger-toggle")
-    .classList.toggle("max-h-[88px]");
-};
-
 /* Add to cart UI interactivity. */
-
 // Added to Cart Animation
 const addedToCartAnimation = (btnIndex) => {
   let timeoutId;
