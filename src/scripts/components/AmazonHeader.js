@@ -182,7 +182,7 @@ export const renderHeader = () => {
   <div
     class="bg-amazonbg js-burger-toggle absolute top-[60px] right-0 left-0 max-h-0 overflow-hidden text-center text-[16px] font-[600] text-white transition-[max-height] duration-250 md:hidden"
   >
-    <a class="hover:bg-burgerlinkbg z-10 block cursor-pointer p-[8px]"
+    <a href="orders.html" class="hover:bg-burgerlinkbg z-10 block cursor-pointer p-[8px]"
       >Returns & Orders</a
     >
     <a href="checkout.html" class="hover:bg-burgerlinkbg z-10 block cursor-pointer p-[8px]">
