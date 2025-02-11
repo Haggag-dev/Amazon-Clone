@@ -15,6 +15,10 @@ export let cart = JSON.parse(localStorage.getItem("cart")) || [
   },
 ];
 
+export const emptyCart = () => {
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart = localStorage.setItem("cart", JSON.stringify([]));
+};
 
 export const calculateCartQuantity = () =>
   cart.reduce((accum, curr) => (accum += curr.quantity), 0);

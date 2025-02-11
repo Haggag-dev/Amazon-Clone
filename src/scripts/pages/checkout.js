@@ -1,7 +1,7 @@
 import { html as headerHTML } from "../components/CheckoutHeader.js";
 import { html as checkoutSummaryHTML } from "../components/CheckoutSummary.js";
 import { html as checkoutDetailsHTML } from "../components/CheckoutDetails.js";
-import { cart } from "../data/cart.js";
+import { cart, emptyCart } from "../data/cart.js";
 import { addOrder } from "../data/orders.js";
 
 // Loading the checkout header HTML.
@@ -25,11 +25,11 @@ export const placeOrder = async () => {
     });
 
     const order = await response.json();
-
     addOrder(order);
 
-    console.log(order)
-    // window.location.href = "orders.html";
+    emptyCart();
+
+    window.location.href = "orders.html";
   } catch (err) {
     console.log(err);
   }
