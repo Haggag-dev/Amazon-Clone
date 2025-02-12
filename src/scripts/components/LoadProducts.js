@@ -48,7 +48,7 @@ export const renderProductsGrid = () => {
     </div>
 
     <div class="w-full">
-      <button data-product-id="${curr.id}" data-product-name="${curr.name}" data-product-price="${curr.priceCents}" class="js-add-to-cart-btn bg-amazonbtn border-amazonbtnborder w-full cursor-pointer rounded-[50px] border-1 border-solid p-[8px] text-[13px] leading-4 font-[400] shadow-(--amazon-shadow)">
+      <button data-product-id="${curr.id}" data-product-name="${curr.name}" data-product-price="${curr.priceCents}" class="js-add-to-cart-btn bg-amazonbtn border-amazonbtnborder w-full cursor-pointer rounded-[50px] border-1 border-solid p-[8px] text-[13px] leading-4 font-[400] shadow-(--amazon-shadow) hover:bg-[rgb(247,202,0)] hover:border-[rgb(242,194,0)]">
         Add to Cart
       </button>
     </div>

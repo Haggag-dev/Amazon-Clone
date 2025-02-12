@@ -1,4 +1,4 @@
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
+export let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
 const saveToStorage = () => {
   localStorage.setItem("orders", JSON.stringify(orders));
