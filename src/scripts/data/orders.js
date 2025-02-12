@@ -3,7 +3,7 @@ import dayjs from "https://unpkg.com/dayjs@1.11.13/esm/index.js";
 export let orders = JSON.parse(localStorage.getItem("orders")) || [
   {
     id: "27cba69d-4c3d-4098-b42d-ac7fa62b7664",
-    orderTimeMs: dayjs().toISOString(),
+    orderTime: dayjs().toISOString(),
     totalCostCents: 3506,
     products: [
       {
@@ -31,6 +31,22 @@ export const addOrder = (order) => {
   saveToStorage();
 };
 
+export const getOrder = (orderId) => {
+  for (let i = 0; i < orders.length; i++)
+    if (orderId === orders[i].id) return orders[i];
+};
+
+// Gets a cart item from a specific order.
+export const getProductItem = (order, productId) => {
+  const products = order.products;
+  for (let i = 0; i < products.length; i++)
+    if (productId === products[i].productId) return products[i];
+};
+
 export const formatOrderDate = (date) => {
   return dayjs(date).format("MMMM D");
+};
+
+export const formatDeliveryDate = (date) => {
+  return dayjs(date).format("dddd, MMMM D");
 };

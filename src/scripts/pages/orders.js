@@ -84,7 +84,7 @@ const orderProductHTML = (
             >
               <button
                 data-order-id="${orderId}"
-                data-cart-item-id="${cartItemId}"
+                data-product-id=${productDetails.id}
                 class="js-tracking-btn grid2:w-[140px] grid2:p-2 grid4:w-full w-full cursor-pointer rounded-[8px] border-1 border-solid border-[#D5D9D9] p-3 text-[15px] shadow-(--amazon-shadow) hover:bg-[#F7FAFA]"
               >
                 Track Package
@@ -137,15 +137,14 @@ const renderOrdersGrid = () => {
   });
 
   document.querySelectorAll(".js-tracking-btn").forEach((btn) => {
-    console.log(btn)
     btn.addEventListener("click", () => {
-      trackProduct(btn.dataset.orderId, btn.dataset.cartItemId)
+      trackProduct(btn.dataset.orderId, btn.dataset.productId);
     });
   });
 };
 
-const trackProduct = (orderId, cartItemId) => {
-  window.location.href = `tracking.html?orderId=${orderId}&cartItemId=${cartItemId}`;
+const trackProduct = (orderId, productId) => {
+  window.location.href = `tracking.html?orderId=${orderId}&productId=${productId}`;
 };
 
 renderHeader();
