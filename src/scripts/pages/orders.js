@@ -116,8 +116,11 @@ const renderOrdersGrid = () => {
     "",
   );
 
-  document.querySelector(".js-orders-grid").innerHTML =
-    `<div class="js-test grid grid-cols-1 gap-y-12.5"> ${ordersHTML} </div>`;
+  document.querySelector("main").innerHTML = `
+    <h2 class="mb-6.25 text-[26px] font-bold">Your Orders</h2>
+    <div class="grid grid-cols-1 gap-y-12.5">
+      ${ordersHTML}
+    </div>`;
 
   document.querySelectorAll(".js-buy-again-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
