@@ -1377,6 +1377,10 @@
     --tw-leading: 15px;
     line-height: 15px;
   }
+  .leading-\[16px\] {
+    --tw-leading: 16px;
+    line-height: 16px;
+  }
   .leading-\[17\.5px\] {
     --tw-leading: 17.5px;
     line-height: 17.5px;
@@ -1735,6 +1739,12 @@
   .grid2\:text-\[20px\] {
     @media (width >= 450px) {
       font-size: 20px;
+    }
+  }
+  .grid2\:leading-\[inherit\] {
+    @media (width >= 450px) {
+      --tw-leading: inherit;
+      line-height: inherit;
     }
   }
   .grid3\:mr-11\.25 {

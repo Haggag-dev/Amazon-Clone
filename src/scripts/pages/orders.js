@@ -48,6 +48,8 @@ const orderProductHTML = (
   productDetails,
   productQuantity,
   orderArrivalDate,
+  orderId,
+  cartItemId,
 ) => {
   return `<div class="mb-6.25">
               <img
@@ -58,7 +60,7 @@ const orderProductHTML = (
             </div>
 
             <div>
-              <div class="mb-2.5 font-bold">
+              <div class="mb-2.5 font-bold leading-[20px] grid2:leading-[inherit]">
                 ${productDetails.name}
               </div>
               <div class="mb-1.25">Arriving on: ${orderArrivalDate}</div>
@@ -81,7 +83,9 @@ const orderProductHTML = (
               class="grid2:col-start-2 grid2:col-end-auto grid4:col-start-3 grid2:mb-7.5 mb-17.5"
             >
               <button
-                class="grid2:w-[140px] grid2:p-2 grid4:w-full w-full cursor-pointer rounded-[8px] border-1 border-solid border-[#D5D9D9] p-3 text-[15px] shadow-(--amazon-shadow) hover:bg-[#F7FAFA]"
+                data-order-id="${orderId}"
+                data-cart-item-id="${cartItemId}"
+                class="js-tracking-btn grid2:w-[140px] grid2:p-2 grid4:w-full w-full cursor-pointer rounded-[8px] border-1 border-solid border-[#D5D9D9] p-3 text-[15px] shadow-(--amazon-shadow) hover:bg-[#F7FAFA]"
               >
                 Track Package
               </button>
@@ -96,6 +100,8 @@ const orderHTML = (order) => {
       getProduct(product.productId, products),
       product.quantity,
       formatOrderDate(product.estimatedDeliveryTime),
+      order.id,
+      product.cartItemId,
     ));
   }, "");
 
@@ -129,6 +135,17 @@ const renderOrdersGrid = () => {
       addedAnimation(btn);
     });
   });
+
+  document.querySelectorAll(".js-tracking-btn").forEach((btn) => {
+    console.log(btn)
+    btn.addEventListener("click", () => {
+      trackProduct(btn.dataset.orderId, btn.dataset.cartItemId)
+    });
+  });
+};
+
+const trackProduct = (orderId, cartItemId) => {
+  window.location.href = `tracking.html?orderId=${orderId}&cartItemId=${cartItemId}`;
 };
 
 renderHeader();
