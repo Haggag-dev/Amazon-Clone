@@ -1,7 +1,23 @@
 import { renderHeader, updateCart } from "../components/AmazonHeader.js";
 import { orders, formatOrderDate } from "../data/orders.js";
 import { getProduct, products } from "../data/products.js";
+import { buyAgain } from "../data/cart.js";
 import formatCurrency from "../utils/money.js";
+
+let timeoutId;
+const addedAnimation = (btn) => {
+  btn.querySelector(".js-buy-again-icon").classList.add("hidden");
+  btn.querySelector(".js-buy-again-txt").classList.add("hidden");
+  btn.querySelector(".js-added-txt").classList.remove("hidden");
+
+  if (timeoutId) clearTimeout(timeoutId);
+
+  timeoutId = setTimeout(() => {
+    btn.querySelector(".js-buy-again-txt").classList.remove("hidden");
+    btn.querySelector(".js-buy-again-icon").classList.remove("hidden");
+    btn.querySelector(".js-added-txt").classList.add("hidden");
+  }, 2000);
+};
 
 const orderHeaderHTML = (orderDetails) => {
   return `<header
@@ -45,19 +61,19 @@ const orderProductHTML = (
               <div class="mb-2.5 font-bold">
                 ${productDetails.name}
               </div>
-              <div class="mb-0.75">Arriving on: ${orderArrivalDate}</div>
+              <div class="mb-1.25">Arriving on: ${orderArrivalDate}</div>
               <div class="mb-3.75">Quantity: ${productQuantity}</div>
               <button
                 data-product-id="${productDetails.id}"
-                class="bg-amazonbtn grid2:w-[140px] border-amazonbtnborder mb-3.75 flex h-9 w-full cursor-pointer items-center justify-center rounded-[8px] border-1 border-solid p-[8px] shadow-(--amazon-shadow) hover:border-[rgb(242,194,0)] hover:bg-[rgb(247,202,0)]"
+                class="js-buy-again-btn bg-amazonbtn grid2:w-[140px] border-amazonbtnborder mb-3.75 flex h-9 w-full cursor-pointer items-center justify-center rounded-[8px] border-1 border-solid p-[8px] shadow-(--amazon-shadow) hover:border-[rgb(242,194,0)] hover:bg-[rgb(247,202,0)]"
               >
                 <img
                   src="images/icons/buy-again.png"
                   alt="Buy it again icon."
-                  class="grid2:w-6.25 grid2:mr-3.75 mr-6.25 w-6.25"
+                  class="js-buy-again-icon grid2:w-6.25 grid2:mr-3.75 mr-6.25 w-6.25"
                 />
-                <span class="text-[15px]">Buy it again</span>
-                <span class="hidden text-[15px]">✔ Added</span>
+                <span class="js-buy-again-txt text-[15px]">Buy it again</span>
+                <span class="js-added-txt hidden text-[15px]">✔ Added</span>
               </button>
             </div>
 
@@ -83,7 +99,7 @@ const orderHTML = (order) => {
     ));
   }, "");
 
-  return `<section class="js-test font-body text-amazonfourth">
+  return `<section class="js-test font-body text-amazonfourth leading-4">
             ${headerHTML}
 
             <div
@@ -102,8 +118,15 @@ const renderOrdersGrid = () => {
 
   document.querySelector(".js-orders-grid").innerHTML =
     `<div class="js-test grid grid-cols-1 gap-y-12.5"> ${ordersHTML} </div>`;
-};
 
+  document.querySelectorAll(".js-buy-again-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      buyAgain(btn.dataset.productId);
+      updateCart();
+      addedAnimation(btn);
+    });
+  });
+};
 
 renderHeader();
 updateCart();

@@ -54,6 +54,7 @@ export const addProductToCart = (btnIndex) => {
     for (let i = 0; i < cart.length; i++) {
       if (product.productId === cart[i].productId) {
         cart[i].quantity += quantity;
+        saveToStorage();
         return;
       }
     }
@@ -64,6 +65,23 @@ export const addProductToCart = (btnIndex) => {
     });
     saveToStorage();
   };
+};
+
+export const buyAgain = (productId) => {
+  for (let i = 0; i < cart.length; i++) {
+    if (productId === cart[i].productId) {
+      cart[i].quantity++;
+      saveToStorage();
+      return;
+    }
+  }
+
+  cart.push({
+    productId,
+    quantity: 1,
+  });
+
+  saveToStorage();
 };
 
 export const deleteFromCart = (itemId) => {
