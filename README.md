@@ -1,6 +1,6 @@
 /* UI Testing 🧪 | (❌ User) Stories */
 
-This is the documentation for the UI testing in the form of stories (similar to user stories), however, the main difference is not appending 'as a user I should' in the beginning of a story, in order to prevent unnecessary repetition.
+This is the documentation for the UI testing in the form of stories (similar to user stories), however, the main difference is not appending 'as a user I should' in the beginning of a story in order to prevent unnecessary repetition.
 
 ----------------------------------------
 ----------------------------------------
