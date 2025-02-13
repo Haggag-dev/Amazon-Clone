@@ -99,7 +99,7 @@ __3. Go to the 'Cart' page using the 'Cart' button. (Through a navigation bar)
 ----------------------------------------
 
 
-SECTION C. 'Return & Orders' Page
+SECTION D. 'Tracking' Page
 
 --
 
@@ -113,7 +113,7 @@ __2: Track the package status by viewing a loading bar, where the exact status (
 III. Navigation:
 
 __1. Go to the 'Returns & Orders' page, using the 'View all orders' link.
-__2. Go to the 'Products'/'Main' page using the amazon logo. (Through a navigation bar)r)
+__2. Go to the 'Products'/'Main' page using the amazon logo. (Through a navigation bar)
 __3. Go to the 'Cart' page using the 'Cart' button. (Through a navigation bar).
 
 
