@@ -24,12 +24,11 @@ const addedToCartAnimation = (btnIndex) => {
   };
 };
 
-
-
 const addToCartElement = document.querySelectorAll(".js-add-to-cart-btn");
 for (let i = 0; i < addToCartElement.length; i++) {
   addToCartElement[i].addEventListener("click", addedToCartAnimation(i));
   addToCartElement[i].addEventListener("click", cartModule.addProductToCart(i));
   addToCartElement[i].addEventListener("click", updateCart);
 }
+
 updateCart(); // When the page first loads

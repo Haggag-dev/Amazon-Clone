@@ -126,9 +126,9 @@ export const renderHeader = () => {
     </a>
   </section>
 
-  <label for="search-bar" class="mr-5 ml-5 flex flex-1 justify-center">
+  <label for="search-prod-bar" class="mr-5 ml-5 flex flex-1 justify-center">
     <input
-      id="search-bar"
+      id="search-prod-bar"
       name="search-bar"
       type="text"
       placeholder="Search"
@@ -136,7 +136,7 @@ export const renderHeader = () => {
     />
 
     <button
-      class="bg-amazonfirst h-10 shrink-0 cursor-pointer overflow-clip rounded-r-sm p-2"
+      class="js-search-prod-btn bg-amazonfirst h-10 shrink-0 cursor-pointer overflow-clip rounded-r-sm p-2"
     >
       <image
         src="/images/icons/search-icon.png"
@@ -206,4 +206,25 @@ export const renderHeader = () => {
     burgerMenuToggled = !burgerMenuToggled;
     burgerMenuHtml();
   });
+
+  const searchProduct = () => {
+    const searchInputValue = document.getElementById("search-prod-bar").value;
+    if (searchInputValue === "") window.location.href = "index.html";
+    else window.location.href = `index.html?search=${searchInputValue}`;
+  };
+
+  document
+    .getElementById("search-prod-bar")
+    .addEventListener("keypress", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        searchProduct();
+      }
+    });
+
+  document
+    .querySelector(".js-search-prod-btn")
+    .addEventListener("click", () => {
+      searchProduct();
+    });
 };

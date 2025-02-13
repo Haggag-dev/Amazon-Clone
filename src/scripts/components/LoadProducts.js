@@ -1,7 +1,20 @@
 import { products } from "../data/products.js";
 
 export const renderProductsGrid = () => {
-  document.querySelector("main").innerHTML = products.reduce((accum, curr) => {
+  const url = new URL(window.location.href);
+  const search = url.searchParams.get("search");
+
+  let prods = products;
+  if (search) {
+    const searchLowerCase = search.toLowerCase();
+    prods = products.filter(
+      (product) =>
+        product.name.toLowerCase().includes(searchLowerCase) ||
+        product.keywords.includes(searchLowerCase),
+    );
+  }
+
+  document.querySelector("main").innerHTML = prods.reduce((accum, curr) => {
     return (accum += `<div class="border-grayborder flex flex-col items-center justify-center border-r-1 border-b-1 border-solid pt-10 pr-[25px] pb-[25px] pl-[25px]">
     <div class="mb-5 flex h-[180px] items-center justify-center">
       <img
