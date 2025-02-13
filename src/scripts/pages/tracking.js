@@ -16,14 +16,15 @@ const getOrderState = (orderTime, estimatedDeliveryTime) => {
   const durationPassed = dayjs().diff(startDate, "hours");
 
   const perc = (durationPassed / totalDuration) * 100;
+
   let state;
 
   switch (true) {
     case perc >= 0 && perc < 5:
       state = ["5%", "Preparing"];
       break;
-    case perc >= 10 && perc < 100:
-      state = [`${perc}`, "Shipped"];
+    case perc >= 5 && perc < 100:
+      state = [`${perc}%`, "Shipped"];
       break;
     case perc >= 100:
       state = ["100%", "Delivered"];
