@@ -23,9 +23,15 @@ const getOrderState = (orderTime, estimatedDeliveryTime) => {
     case perc >= 0 && perc < 5:
       state = ["5%", "Preparing"];
       break;
-    case perc >= 5 && perc < 100:
+
+    case perc >= 5 && perc < 40:
+      state = [`${perc}%`, "Preparing"];
+      break;
+
+    case perc >= 40 && perc < 100:
       state = [`${perc}%`, "Shipped"];
       break;
+
     case perc >= 100:
       state = ["100%", "Delivered"];
       break;
